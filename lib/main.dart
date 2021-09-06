@@ -7,12 +7,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            body: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
+            body: Row(
+      children: <Widget>[
         SourceTextField(),
-        ResultTextField(),
-        Keyboard(),
+        Column(
+          children: <Widget>[SourceTextField(), ResultTextField()],
+        )
       ],
     )));
   }
