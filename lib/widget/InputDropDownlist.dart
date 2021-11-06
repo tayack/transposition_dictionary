@@ -8,10 +8,33 @@ class InputDropDownlist extends StatefulWidget {
 }
 
 class _InputDropDownlistState extends State<InputDropDownlist> {
+  List<DropdownMenuItem<int>> _items = [];
+  int _selectedValue = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    setItems();
+  }
+
+  void setItems() {
+    var util = Util();
+    _items.add(util.createDdlItem("C", 1));
+    _items.add(util.createDdlItem("C#", 2));
+    _items.add(util.createDdlItem("D", 3));
+    _items.add(util.createDdlItem("E♭", 4));
+    _items.add(util.createDdlItem("E", 5));
+    _items.add(util.createDdlItem("F", 6));
+    _items.add(util.createDdlItem("F#", 7));
+    _items.add(util.createDdlItem("G", 8));
+    _items.add(util.createDdlItem("G#", 9));
+    _items.add(util.createDdlItem("A", 10));
+    _items.add(util.createDdlItem("B♭", 11));
+    _items.add(util.createDdlItem("B", 12));
+  }
+
   @override
   Widget build(BuildContext context) {
-    var util = Util();
-
     return Expanded(
       child: Container(
         margin: EdgeInsets.all(SettingConfig.commonMargin),
@@ -23,22 +46,13 @@ class _InputDropDownlistState extends State<InputDropDownlist> {
         child: DropdownButtonHideUnderline(
           child: DropdownButton(
             dropdownColor: SettingConfig.color1,
-            value: 1,
-            onChanged: (value) => {},
-            items: [
-              util.createDdlItem("C", 1),
-              util.createDdlItem("C#", 2),
-              util.createDdlItem("D", 3),
-              util.createDdlItem("E♭", 4),
-              util.createDdlItem("E", 5),
-              util.createDdlItem("F", 6),
-              util.createDdlItem("F#", 7),
-              util.createDdlItem("G", 8),
-              util.createDdlItem("G#", 9),
-              util.createDdlItem("A", 10),
-              util.createDdlItem("B♭", 11),
-              util.createDdlItem("B", 12),
-            ],
+            onChanged: (value) => {
+              setState(() {
+                _selectedValue = int.parse(value.toString());
+              })
+            },
+            value: _selectedValue,
+            items: _items,
           ),
         ),
       ),

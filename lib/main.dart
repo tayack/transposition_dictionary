@@ -69,9 +69,9 @@ class _MyAppState extends State<MyApp> {
           ),
           Row(
             children: [
-              Label("Input"),
+              Label("Input Key"),
               InputDropDownlist(),
-              Label("Transposition"),
+              Label("Output Key"),
               InputDropDownlist()
             ],
           ),
