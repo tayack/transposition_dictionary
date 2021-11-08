@@ -39,9 +39,14 @@ class Util {
   }
 
   String getDiffChord(String chord, int inputKey, int outputKey) {
-    int resultInt =
-        (int.parse(chordDictionary[chord].toString()) + inputKey - outputKey) %
-            12;
+    int resultInt = (int.parse(chordDictionary[chord].toString()) -
+            inputKey +
+            outputKey +
+            12) %
+        12;
+    if (resultInt == 0) {
+      resultInt = 12;
+    }
     return chordDictionary2[resultInt].toString();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:transposition_dictionary/util.dart';
 import 'package:transposition_dictionary/widget/ChordButton.dart';
-import 'package:transposition_dictionary/widget/InputDropDownlist.dart';
+import 'package:transposition_dictionary/widget/KeyDropDownlist.dart';
 import 'package:transposition_dictionary/widget/Label.dart';
 import 'package:transposition_dictionary/widget/TextRow.dart';
 
@@ -25,6 +26,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _isEnabled = true;
+  int _inputKey = 1;
+  int _outputKey = 1;
+  Util util = Util();
 
   int _counter = 0;
   void incrementCounter() {
@@ -34,6 +38,14 @@ class _MyAppState extends State<MyApp> {
       if (_isEnabled) {
         _counter++;
       }
+    });
+  }
+
+  void setValueToOutput(String chord) {
+    setState(() {
+      widget._outputTextFieldControllerList[_counter].text =
+          util.getDiffChord(chord, _inputKey, _outputKey);
+      widget._inputTextFieldControllerList[_counter].text = chord;
     });
   }
 
@@ -51,127 +63,162 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void setOutputDataWithInputKey(inputkey) {
+    setState(() {
+      _inputKey = inputkey;
+      for (var i = 0; i < 8; i++) {
+        widget._outputTextFieldControllerList[i].text = util.getDiffChord(
+            widget._inputTextFieldControllerList[i].text, inputkey, _outputKey);
+      }
+    });
+  }
+
+  void setOutputDataWithOutputKey(outputkey) {
+    setState(() {
+      _outputKey = outputkey;
+      for (var i = 0; i < 8; i++) {
+        widget._outputTextFieldControllerList[i].text = util.getDiffChord(
+            widget._inputTextFieldControllerList[i].text, _inputKey, outputkey);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
       backgroundColor: SettingConfig.backgroundColor,
-      body: Column(
-        children: <Widget>[
-          TextRow(widget._inputTextFieldControllerList),
-          TextRow(widget._outputTextFieldControllerList),
-          Row(
-            children: [
-              SizedBox(
-                height: 10,
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Label("Input Key"),
-              InputDropDownlist(),
-              Label("Output Key"),
-              InputDropDownlist()
-            ],
-          ),
-          Row(children: [
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'C',
-                _isEnabled),
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'C#',
-                _isEnabled),
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'D',
-                _isEnabled),
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'E♭',
-                _isEnabled),
-          ]),
-          Row(children: [
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'C',
-                _isEnabled),
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'C#',
-                _isEnabled),
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'D',
-                _isEnabled),
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'E♭',
-                _isEnabled),
-          ]),
-          Row(children: [
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'C',
-                _isEnabled),
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'C#',
-                _isEnabled),
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'D',
-                _isEnabled),
-            ChordButton(
-                widget._inputTextFieldControllerList[_counter],
-                widget._outputTextFieldControllerList[_counter],
-                incrementCounter,
-                'E♭',
-                _isEnabled),
-          ]),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.all(SettingConfig.commonMargin),
-                  height: SettingConfig.commonHeight,
-                  child: ElevatedButton(
-                    onPressed: () => {clearValues()},
-                    child: Text('clear'),
-                    style: ElevatedButton.styleFrom(
-                      primary: SettingConfig.color1,
-                      onPrimary: SettingConfig.color2,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            TextRow(widget._inputTextFieldControllerList),
+            TextRow(widget._outputTextFieldControllerList),
+            Row(
+              children: [
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Label("Input Key"),
+                KeyDropDownlist(setOutputDataWithInputKey),
+                Label("Output Key"),
+                KeyDropDownlist(setOutputDataWithOutputKey)
+              ],
+            ),
+            Row(children: [
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'C',
+                  _isEnabled,
+                  setValueToOutput),
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'C#',
+                  _isEnabled,
+                  setValueToOutput),
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'D',
+                  _isEnabled,
+                  setValueToOutput),
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'E♭',
+                  _isEnabled,
+                  setValueToOutput),
+            ]),
+            Row(children: [
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'E',
+                  _isEnabled,
+                  setValueToOutput),
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'F',
+                  _isEnabled,
+                  setValueToOutput),
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'F#',
+                  _isEnabled,
+                  setValueToOutput),
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'G',
+                  _isEnabled,
+                  setValueToOutput),
+            ]),
+            Row(children: [
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'G#',
+                  _isEnabled,
+                  setValueToOutput),
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'A',
+                  _isEnabled,
+                  setValueToOutput),
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'B♭',
+                  _isEnabled,
+                  setValueToOutput),
+              ChordButton(
+                  widget._inputTextFieldControllerList[_counter],
+                  widget._outputTextFieldControllerList[_counter],
+                  incrementCounter,
+                  'B',
+                  _isEnabled,
+                  setValueToOutput),
+            ]),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.all(SettingConfig.commonMargin),
+                    height: SettingConfig.commonHeight,
+                    child: ElevatedButton(
+                      onPressed: () => {clearValues()},
+                      child: Text('clear'),
+                      style: ElevatedButton.styleFrom(
+                        primary: SettingConfig.color1,
+                        onPrimary: SettingConfig.color2,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     ));
   }

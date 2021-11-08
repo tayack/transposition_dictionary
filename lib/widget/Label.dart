@@ -3,7 +3,7 @@ import 'package:transposition_dictionary/config/config.dart';
 
 class Label extends StatelessWidget {
   String textValue;
-  Label(this.textValue) {}
+  Label(this.textValue);
 
   @override
   Widget build(BuildContext context) {

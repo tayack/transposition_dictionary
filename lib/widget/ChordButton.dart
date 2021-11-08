@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transposition_dictionary/config/config.dart';
+import 'package:transposition_dictionary/util.dart';
 
 class ChordButton extends StatefulWidget {
   @override
@@ -11,16 +12,13 @@ class ChordButton extends StatefulWidget {
   final String _chord;
   final _countup;
   final _isEnabled;
-  var _buttonColor;
+  var _setValueToOutput;
   ChordButton(this._inputTextFieldController, this._outputTextFieldController,
-      this._countup, this._chord, this._isEnabled) {
-    _isEnabled
-        ? _buttonColor = SettingConfig.color1
-        : _buttonColor = SettingConfig.color3;
-  }
+      this._countup, this._chord, this._isEnabled, this._setValueToOutput) {}
 }
 
 class _ChordButtonState extends State<ChordButton> {
+  Util util = Util();
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -36,11 +34,7 @@ class _ChordButtonState extends State<ChordButton> {
             onPressed: !widget._isEnabled
                 ? () => {}
                 : () => {
-                      widget._inputTextFieldController.text =
-                          widget._inputTextFieldController.text + widget._chord,
-                      widget._outputTextFieldController.text =
-                          widget._outputTextFieldController.text +
-                              widget._chord,
+                      widget._setValueToOutput(widget._chord),
                       widget._countup()
                     },
             child: Text(widget._chord),

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:transposition_dictionary/config/config.dart';
 import 'package:transposition_dictionary/util.dart';
 
-class InputDropDownlist extends StatefulWidget {
+class KeyDropDownlist extends StatefulWidget {
+  final _setOutputValueMethod;
+  KeyDropDownlist(this._setOutputValueMethod);
   @override
-  _InputDropDownlistState createState() => _InputDropDownlistState();
+  _KeyDropDownlistState createState() => _KeyDropDownlistState();
 }
 
-class _InputDropDownlistState extends State<InputDropDownlist> {
+class _KeyDropDownlistState extends State<KeyDropDownlist> {
   List<DropdownMenuItem<int>> _items = [];
   int _selectedValue = 1;
 
@@ -49,7 +51,8 @@ class _InputDropDownlistState extends State<InputDropDownlist> {
             onChanged: (value) => {
               setState(() {
                 _selectedValue = int.parse(value.toString());
-              })
+              }),
+              widget._setOutputValueMethod(value)
             },
             value: _selectedValue,
             items: _items,
