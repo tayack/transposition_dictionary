@@ -51,7 +51,8 @@ class _MyAppState extends State<MyApp> {
   int _counter = 0;
 
   final BannerAd myBanner = BannerAd(
-    adUnitId: getTestAdBannerUnitId(),
+    //adUnitId: getTestAdBannerUnitId(),
+    adUnitId:"ca-app-pub-9410375406721754/1905414002",
     size: AdSize.banner,
     request: AdRequest(),
     listener: BannerAdListener(),

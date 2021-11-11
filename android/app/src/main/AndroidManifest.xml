@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.transposition_dictionary">
    <application
-        android:label="transposition_dictionary"
+        android:label="Transpose_Notes"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
