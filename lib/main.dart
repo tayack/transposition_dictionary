@@ -7,10 +7,12 @@ import 'package:transposition_dictionary/widget/TextRow.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'config/config.dart';
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: '.env');
+
   WidgetsFlutterBinding.ensureInitialized();
-
   MobileAds.instance.initialize();
   runApp(MyApp());
 }
@@ -52,7 +54,7 @@ class _MyAppState extends State<MyApp> {
 
   final BannerAd myBanner = BannerAd(
     //adUnitId: getTestAdBannerUnitId(),
-    adUnitId:"ca-app-pub-9410375406721754/1905414002",
+    adUnitId: dotenv.env['admobid'].toString(),
     size: AdSize.banner,
     request: AdRequest(),
     listener: BannerAdListener(),
