@@ -59,6 +59,9 @@ class _MyAppState extends State<MyApp> {
     request: AdRequest(),
     listener: BannerAdListener(),
   );
+
+
+
   void incrementCounter() {
     setState(() {
       _isEnabled =
